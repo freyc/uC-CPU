@@ -409,6 +409,12 @@ void        CPU_BitBandClr   (CPU_ADDR    addr,
 void        CPU_BitBandSet   (CPU_ADDR    addr,
                               CPU_INT08U  bit_nbr);
 
+void        CPU_SetControl   (CPU_INT32U  val);
+
+CPU_INT32U  CPU_GetControl   (void);
+
+CPU_BOOLEAN CPU_IsPrivileged (void);
+
 
 /*
 *********************************************************************************************************
@@ -627,6 +633,11 @@ void        CPU_BitBandSet   (CPU_ADDR    addr,
 
 #define  CPU_MSK_SCB_ICSR_VECT_ACTIVE             0x000001FF
 
+
+#define CPU_SVCALL_RAISE_PRIVILEGE      (1)
+#define CPU_SVCALL_LOWER_PRIVILEGE      (2)
+
+#define SVCall(code)     asm volatile("svc %[immediate]"::[immediate] "I" (code))
 
 /*
 *********************************************************************************************************

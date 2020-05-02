@@ -44,6 +44,10 @@
         .global  CPU_CntTrailZeros
         .global  CPU_RevBits
 
+        .global  CPU_SetControl
+        .global  CPU_GetControl
+        .global  CPU_IsPrivileged
+
 
 @********************************************************************************************************
 @                                      CODE GENERATION DIRECTIVES
@@ -286,6 +290,25 @@ CPU_RevBits:
         RBIT    R0, R0                          @ Reverse bits
         BX      LR
 
+
+.thumb_func
+CPU_SetControl:
+        MSR     CONTROL, R0
+        BX      LR
+
+.thumb_func
+CPU_GetControl:
+        MRS     R0, CONTROL
+        BX      LR
+
+.thumb_func
+CPU_IsPrivileged:
+        MRS     R0, CONTROL
+        TST     R0, #1
+        ITE     EQ
+        MOVEQ   R0, #1
+        MOVNE   R0, #0
+        BX      LR
 
 @********************************************************************************************************
 @                                     CPU ASSEMBLY PORT FILE END
